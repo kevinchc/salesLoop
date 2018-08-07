@@ -27,8 +27,9 @@ const styles = {
 };
 
 
-class MenuAppBar extends Component{
+class MenuAppBar extends React.Component{
     render(){
+        const { classes } = this.props;
         return(
             <div className={classes.root}>
 
@@ -36,6 +37,8 @@ class MenuAppBar extends Component{
         )
     }
 }
-MenuAppBar.propTypes = {}
+MenuAppBar.propTypes = {
+    classes: PropTypes.object.isRequired
+};
 
-export default MenuAppBar;
+export default  withStyles(styles)(MenuAppBar);
