@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 import { Routes } from './routes/Routes';
 
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import Header from './components/Header/Header';
 
-import { configureStore } from './store/configureStore'
+import { configureStore } from './store/configureStore';
 const store = configureStore();
 
 const App = (props) => {
-    return (
-        <Provider store={store} >
-            <Routes/>
-        </Provider>
+    return(
+        <div>
+            <Header/>
+            <Provider store={store} >
+                <Routes/>
+            </Provider>
+        </div>
     )
-}
+};
 
 export default App;
