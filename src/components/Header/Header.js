@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import './Header.css';
 import SearchForm from './SearchForm';
+import { BrowserRouter as Router,Link } from 'react-router-dom';
 
 
 import AppBar from '@material-ui/core/AppBar';
@@ -11,7 +12,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Icon from '@material-ui/core/Icon';
@@ -77,32 +77,32 @@ class Header extends Component{
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                            <MenuIcon />
-                        </IconButton>
-                        <SearchForm className={classes.searchForm}/>
-                        <div className={classes.nav}>
-                            <Button className="btn-nav">
-                                <Icon>attach_money</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button>
-                                <Icon>email</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button>
-                                <Icon>calendar_today</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button>
-                                <Icon>person</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button>
-                                <Icon>trending_up</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                        </div>
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                                <MenuIcon />
+                            </IconButton>
+                            <SearchForm className={classes.searchForm}/>
+                            <div className={classes.nav}>
+                                <Button>
+                                    <Icon>email</Icon>
+                                    <Typography variant="subheading" color="inherit">Deals</Typography>
+                                </Button>
+                                <Button>
+                                    <Icon>email</Icon>
+                                    <Typography variant="subheading" color="inherit">Deals</Typography>
+                                </Button>
+                                <Button>
+                                    <Icon>calendar_today</Icon>
+                                    <Typography variant="subheading" color="inherit">Deals</Typography>
+                                </Button>
+                                <Button>
+                                    <Icon>person</Icon>
+                                    <Typography variant="subheading" color="inherit">Deals</Typography>
+                                </Button>
+                                <Button>
+                                    <Icon>trending_up</Icon>
+                                    <Typography variant="subheading" color="inherit">Deals</Typography>
+                                </Button>
+                            </div>
                         {auth && (
                             <div>
                                 <IconButton>
