@@ -10,12 +10,9 @@ const store = configureStore();
 
 const App = (props) => {
     return(
-        <div>
-            <Header/>
-            <Provider store={store} >
-                <Routes/>
-            </Provider>
-        </div>
+        <Provider store={store} >
+            <Routes/>
+        </Provider>
     )
 };
 

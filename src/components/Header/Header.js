@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import './Header.css';
+import '../../App.css';
 import SearchForm from './SearchForm';
-
+import { Link } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -22,30 +22,6 @@ import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MenuList from '@material-ui/core/MenuList';
 import Divider from '@material-ui/core/Divider';
-
-
-
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    flex: {
-        flexGrow: 2,
-    },
-    nav: {
-        flexGrow:1
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
-    searchForm: {
-        flexGrow: 1
-    },
-    paper: {
-        marginRight: theme.spacing.unit * 2,
-    },
-});
 
 
 class Header extends Component{
@@ -67,28 +43,31 @@ class Header extends Component{
 
     render(){
 
-        const { classes } = this.props;
         const {
             auth,
             open
         } = this.state;
 
         return(
-            <div className={classes.root}>
+            <div>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                            <MenuIcon />
+                        <IconButton color="inherit" aria-label="Menu" className="Logo">
+                            <Typography
+                                variant="title"
+                                color="inherit">
+                                SalesLoop
+                            </Typography>
                         </IconButton>
-                        <SearchForm className={classes.searchForm}/>
-                        <div className={classes.nav}>
-                            <Button className="btn-nav">
+                        <SearchForm />
+                        <div>
+                            <Button className="btn-nav" component={Link} to="/deals">
                                 <Icon>attach_money</Icon>
                                 <Typography variant="subheading" color="inherit">Deals</Typography>
                             </Button>
-                            <Button>
+                            <Button component={Link} to="/mail/list">
                                 <Icon>email</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
+                                <Typography variant="subheading" color="inherit">Mail</Typography>
                             </Button>
                             <Button>
                                 <Icon>calendar_today</Icon>
@@ -165,8 +144,5 @@ class Header extends Component{
     }
 }
 
-Header.propTypes = {
-    classes : PropTypes.object.isRequired
-};
 
-export default withStyles(styles)(Header);
+export default Header;
