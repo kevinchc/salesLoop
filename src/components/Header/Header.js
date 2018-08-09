@@ -65,15 +65,15 @@ class Header extends Component{
                                 <Icon>attach_money</Icon>
                                 <Typography variant="subheading" color="inherit">Deals</Typography>
                             </Button>
-                            <Button component={Link} to="/mail/list">
+                            <Button component={Link} to="/mail/inbox">
                                 <Icon>email</Icon>
                                 <Typography variant="subheading" color="inherit">Mail</Typography>
                             </Button>
-                            <Button>
+                            <Button component={Link} to="/activities/list">
                                 <Icon>calendar_today</Icon>
                                 <Typography variant="subheading" color="inherit">Deals</Typography>
                             </Button>
-                            <Button>
+                            <Button component={Link} to="">
                                 <Icon>person</Icon>
                                 <Typography variant="subheading" color="inherit">Deals</Typography>
                             </Button>

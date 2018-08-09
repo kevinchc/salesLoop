@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import NavDeals from './NavDeals/NavDeals';
 
 class Deals extends Component{
     render(){
         return(
-            <h1>Hi</h1>
+            <header>
+                <NavDeals/>
+            </header>
+
         )
     }
 }
