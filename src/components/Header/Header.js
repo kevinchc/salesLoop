@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import '../../App.css';
+import './Header.css';
 import SearchForm from './SearchForm';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +16,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Popper from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -37,8 +39,8 @@ class Header extends Component{
         }
         this.setState({ open: false});
     };
-    handleToggle = () => {
-        this.setState(state => ({open: !this.open}))
+    handleUser = () => {
+      this.setState(state => ({open: !state.open}))
     };
 
     render(){
@@ -49,94 +51,118 @@ class Header extends Component{
         } = this.state;
 
         return(
-            <div>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton color="inherit" aria-label="Menu" className="Logo">
-                            <Typography
-                                variant="title"
-                                color="inherit">
-                                SalesLoop
-                            </Typography>
-                        </IconButton>
-                        <SearchForm />
-                        <div>
-                            <Button className="btn-nav" component={Link} to="/deals">
-                                <Icon>attach_money</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button component={Link} to="/mail/inbox">
-                                <Icon>email</Icon>
-                                <Typography variant="subheading" color="inherit">Mail</Typography>
-                            </Button>
-                            <Button component={Link} to="/activities/list">
-                                <Icon>calendar_today</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button component={Link} to="">
-                                <Icon>person</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
-                            <Button>
-                                <Icon>trending_up</Icon>
-                                <Typography variant="subheading" color="inherit">Deals</Typography>
-                            </Button>
+            <div className='root'>
+                <AppBar position="static" color="default">
+                    <Toolbar variant="dense">
+                        <div className="HeaderLogo">
+                            <IconButton className='menuButton' color="inherit" aria-label="Menu">
+                                <MenuIcon />
+                            </IconButton>
                         </div>
-                        {auth && (
-                            <div>
-                                <IconButton>
-                                    <Icon>
-                                        add_circle_outline
-                                    </Icon>
-                                </IconButton>
-                                <IconButton>
-                                    <Icon>
-                                        contact_support
-                                    </Icon>
-                                </IconButton>
-                                <IconButton>
-                                    <Icon>
-                                        notification_important
-                                    </Icon>
-                                </IconButton>
-                                <Button
-                                    buttonRef = { node => {
-                                        this.anchorEl = node;
-                                    }}
-                                    aria-owns={open ? 'menu-list-grow' : null }
-                                    aria-haspopup="true"
-                                    onClick={this.handleToggle}
-                                    color="inherit"
-                                >
-                                    <AccountCircle />
-                                    <Typography color="white">
-                                        SalesLoop
-                                    </Typography>
-                                </Button>
-                                <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
-                                    {({ TransitionProps, placement }) => (
-                                        <Grow
-                                            {...TransitionProps}
-                                            id="menu-list-grow"
-                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                        >
-                                            <Paper>
-                                                <ClickAwayListener onClickAway={this.handleClose}>
-                                                    <MenuList>
-                                                        <MenuItem onClick={this.handleClose}>User profile</MenuItem>
-                                                        <MenuItem onClick={this.handleClose}>Apps & integrations</MenuItem>
-                                                        <MenuItem onClick={this.handleClose}>Setting</MenuItem>
-                                                        <Divider/>
-                                                        <MenuItem onClick={this.handleClose}>Upgrade plan</MenuItem>
-                                                        <MenuItem onClick={this.handleClose}>Add more users</MenuItem>
-                                                    </MenuList>
-                                                </ClickAwayListener>
-                                            </Paper>
-                                        </Grow>
-                                    )}
-                                </Popper>
-                            </div>
-                        )}
+                        <div className='HeaderSearch'>
+                            <TextField
+                                className='margin'
+                                id="input-with-icon-textfield"
+                                placeholder='Search'
+                                InputProps={{
+                                    startAdornment: (
+                                        <IconButton position="start">
+                                            <Icon>search</Icon>
+                                        </IconButton>
+                                    ),
+                                }}
+                            />
+                        </div>
+                        <div className='HeaderNav'>
+                            <ul>
+                                <li>
+                                    <Button component={Link} to='/deals'>
+                                        Deals
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        Mail
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        Activities
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        Contacts
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        Statistics
+                                    </Button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className='HeaderNavRight'>
+                            <ul>
+                                <li>
+                                    <Button>
+                                        0 trial days left
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        <Icon>
+                                            add_box
+                                        </Icon>
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        <Icon>
+                                            record_voice_over
+                                        </Icon>
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button>
+                                        <Icon>
+                                            notifications
+                                        </Icon>
+                                    </Button>
+                                </li>
+                                <li>
+                                    <Button
+                                        buttonRef={node => {
+                                            this.anchorEl = node;
+                                        }}
+                                        aria-owns={open ? 'menu-list-grow': null}
+                                        aria-haspopup="true"
+                                        variant="contained"
+                                        onClick={this.handleUser}>
+                                        <Icon>person</Icon>
+                                    </Button>
+                                    <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+                                        {({TransitionProps, placement}) => (
+                                            <Grow
+                                                {...TransitionProps}
+                                                id="menu-list-grow"
+                                                style={{transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'}}
+                                            >
+                                                <Paper>
+                                                    <ClickAwayListener onClickAway={this.handleClose}>
+                                                        <MenuList>
+                                                            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                                                            <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                                            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                                                        </MenuList>
+                                                    </ClickAwayListener>
+                                                </Paper>
+                                            </Grow>
+                                        )}
+                                    </Popper>
+                                </li>
+                            </ul>
+                        </div>
                     </Toolbar>
                 </AppBar>
             </div>

@@ -1,0 +1,25 @@
+.RootPipeline{
+    flex-direction: row;
+    display: flex;
+}
+.LeadIn{
+    flex: 1;
+    background-color: #222222;
+    height: 100%;
+}
+.ContactMade{
+    flex: 1;
+    background-color: white;
+}
+.DemoScheduled{
+    flex: 1;
+    background-color: green;
+}
+.ProposalMade{
+    flex: 1;
+    background-color: aqua;
+}
+.Negotiations{
+    flex: 1;
+    background-color: red;
+}

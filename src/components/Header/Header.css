@@ -1,4 +1,43 @@
-.logo {
-    background-color: red;
-    color: red;
+.root{
+    flex-grow: 1;
+}
+.HeaderLogo{
+    flex: 2;
+    text-align: center;
+}
+.HeaderSearch{
+    display: flex;
+    width: 150px;
+    border: 1px solid #222222;
+    text-align: center;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+}
+.HeaderNav{
+    flex: 6;
+    text-align: center;
+}
+.HeaderNav li{
+    display: inline;
+}
+.HeaderNav span{
+    text-transform: capitalize;
+}
+.HeaderNav button{
+    text-transform: capitalize;
+    vertical-align: center;
+}
+.HeaderNav h3 {
+    font-size: 15px;
+}
+.HeaderNavRight{
+    flex: 6;
+    text-align: right;
+}
+.HeaderNavRight li{
+    display: inline;
+    cursor: pointer;
+}
+.HeaderNavRight li:active{
 }
