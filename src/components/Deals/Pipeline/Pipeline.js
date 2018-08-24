@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-
+import Paper from '@material-ui/core/Paper'
 import './Pipeline.css';
 
 class Pipeline extends Component{
     render(){
         return(
-            <div className='RootPipeline'>
+            <Paper className='RootPipeline'>
                 <div className='LeadIn'>
                     1
                 </div>
@@ -21,7 +21,7 @@ class Pipeline extends Component{
                 <div className='Negotiations'>
                     5
                 </div>
-            </div>
+            </Paper>
         )
     }
 }

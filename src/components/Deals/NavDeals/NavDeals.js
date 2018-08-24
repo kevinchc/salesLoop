@@ -46,48 +46,44 @@ export class Setting extends Component{
 class NavDeals extends Component{
     state = {
         pipeline: true,
-        deals: false,
-        timeline: false,
+        deals: false
     };
 
-    changePipeline = () => {
+    handleChangePipe = () => {
         this.setState({
             pipeline: true,
-            deals: false,
-            timeline: false
+            deals: false
         })
     };
 
-    changeDeals = () => {
+    handleChangeDeal = () => {
         this.setState({
             pipeline: false,
-            deals: true,
-            timeline: false
+            deals: true
         })
     }
 
     render(){
         const {
             pipeline,
-            deals,
-            timeline
+            deals
         } = this.state;
 
         return(
             <header className='NavDeals'>
                 <div className='NavGroupLeft'>
                     <ButtonGroup>
-                        <IconButton component={Link} to="/pipeline" onClick={this.changePipeline}>
+                        <IconButton onClick={this.handleChangePipe} component={Link} to="/pipeline">
                             <Icon>
                                 bar_chart
                             </Icon>
                         </IconButton>
-                        <IconButton component={Link} to="/deals" onClick={this.changeDeals}>
+                        <IconButton onClick={this.handleChangeDeal} component={Link} to="/deals">
                             <Icon>
                                 format_align_justify
                             </Icon>
                         </IconButton>
-                        <IconButton component={Link} to="/deals">
+                        <IconButton component={Link} to="/timeline">
                             <Icon>
                                 clear
                             </Icon>
@@ -100,7 +96,8 @@ class NavDeals extends Component{
                 <div className='NavGroupCenter'>
                 </div>
                 <div className='NavGroupRight'>
-                    {pipeline && (<p>Hi</p>)}
+                    {pipeline && <p>pipeline</p>}
+                    {deals && <p>deals</p>}
                 </div>
             </header>
         )
