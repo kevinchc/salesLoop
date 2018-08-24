@@ -1,13 +1,14 @@
 .RootPipeline{
     flex-direction: row;
     display: flex;
-    max-height: 200px;
+    max-height: 100%;
     overflow: auto;
 }
 .LeadIn{
     flex: 1;
+    display: table-cell;
     background-color: #222222;
-    height: 100%;
+    border: 1px solid #3B6BE3;
 }
 .ContactMade{
     flex: 1;
