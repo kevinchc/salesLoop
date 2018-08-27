@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment, PureComponent } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { ButtonGroup, Button, ButtonDropdown, DropdownMenu, DropdownItem,DropdownToggle } from 'reactstrap';
+import { ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem,DropdownToggle } from 'reactstrap';
+import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom';
 
-import SendIcon from '@material-ui/icons/Send';
 import Divider from '@material-ui/core/Divider';
+import { DatePicker } from 'material-ui-pickers';
+
 
 import './NavDeals.css';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener/ClickAwayListener";
@@ -34,6 +36,7 @@ import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 
 import {Row, Col} from 'reactstrap';
+
 import Radio from "@material-ui/core/es/Radio/Radio";
 
 const currencies = [
@@ -74,14 +77,56 @@ const styles = theme => ({
     },
 });
 
+class BasicDatePicker extends PureComponent {
+    state = {
+        selectedDate: '2018-01-01T00:00:00.000Z',
+    };
+
+    handleDateChange = (date) => {
+        this.setState({ selectedDate: date });
+    };
+
+    render() {
+        const { selectedDate } = this.state;
+
+        return (
+            <Fragment>
+                <div className="picker">
+                    <DatePicker
+                        label="Basic example"
+                        value={selectedDate}
+                        onChange={this.handleDateChange}
+                        animateYearScrolling={false}
+                    />
+                </div>
+            </Fragment>
+        );
+    }
+}
+
+
 
 class FormDialog extends React.Component{
     state = {
-      currency: 'EUR',
-        selectedValue: 'a'
+        currency: 'EUR',
+        selectedValue: 'a',
+        openCompany: false
     };
+
     handleClose = () => {
         this.props.onClose(this.props.selectedValue)
+    };
+
+    handleOpenCompany = () => {
+        this.setState(state => ({openCompany: !state.openCompany}))
+    };
+
+    handleCloseCompany = (event) => {
+        console.log(event);
+        if (this.anchorEl.contains(event.target)){
+            return;
+        }
+        this.setState({openCompany: false})
     };
 
     handleListItemClick = value => {
@@ -95,9 +140,10 @@ class FormDialog extends React.Component{
     };
     handleChangeCheked = event => {
         this.setState({selectedValue: event.target.value})
-    }
+    };
     render(){
-        const { onClose, selectedValue, ...other} = this.props
+        const { onClose, selectedValue, ...other} = this.props;
+        const { openCompany} = this.state;
         return(
             <Dialog onClose={this.handleClose} aria-labelledby='simple-dialog-title' {...other}>
                 <Row className='titleAddDeal'>
@@ -163,29 +209,29 @@ class FormDialog extends React.Component{
                         </TextField>
                     </ListItem>
                     <ListItem>
-                        <div>
-                            <Radio
+                        <div className='ListRadio'>
+                            <Radio className='Radio'
                                 checked={this.state.selectedValue === 'a'}
                                 onChange={this.handleChangeCheked}
                                 value="a"
                                 name="radio-button-demo"
                                 aria-label="A"
                             />
-                            <Radio
+                            <Radio className='Radio'
                                 checked={this.state.selectedValue === 'b'}
                                 onChange={this.handleChangeCheked}
                                 value="b"
                                 name="radio-button-demo"
                                 aria-label="B"
                             />
-                            <Radio
+                            <Radio className='Radio'
                                 checked={this.state.selectedValue === 'c'}
                                 onChange={this.handleChangeCheked}
                                 value="c"
                                 name="radio-button-demo"
                                 aria-label="C"
                             />
-                            <Radio
+                            <Radio className='Radio'
                                 checked={this.state.selectedValue === 'd'}
                                 onChange={this.handleChangeCheked}
                                 value="d"
@@ -193,6 +239,52 @@ class FormDialog extends React.Component{
                                 name="radio-button-demo"
                                 aria-label="D"
                             />
+                        </div>
+                    </ListItem>
+                    <ListItem>
+                        <TextField
+                                id="date"
+                                label="Expected close date"
+                                type="date"
+                                defaultValue="2017-05-24"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                        />
+                    </ListItem>
+                    <ListItem>
+                        <div>
+                            <Button
+                                buttonRef={node => {
+                                    this.anchorEl = node;
+                                }}
+                                aria-owns={openCompany ? 'menu-list-grow' : null}
+                                aria-haspopup="true"
+                                onClick={this.handleOpenCompany}
+                            >Entire company
+                            </Button>
+                            <Popper open={openCompany} anchorEl={this.anchorEl} transition disablePortal>
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        id="menu-list-grow"
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={this.handleCloseCompany}>
+                                                <MenuList>
+                                                    <MenuItem onClick={this.handleCloseCompany}>Profile</MenuItem>
+                                                    <MenuItem onClick={this.handleCloseCompany}>My account</MenuItem>
+                                                    <MenuItem onClick={this.handleCloseCompany}>Logout</MenuItem>
+                                                </MenuList>
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
+                        </div>
+                        <div style={{position:'absolute', right:'0'}}>
+                            <Button>Save</Button>
                         </div>
                     </ListItem>
                 </DialogContent>
@@ -213,6 +305,7 @@ class NavDeals extends Component{
         deals: false,
         setting: false,
         user: false,
+        exportE: false,
         value: 'one',
         open: false
     };
@@ -247,10 +340,14 @@ class NavDeals extends Component{
     handleToggleUser = () => {
         this.setState(state => ({user : !state.user}))
     };
+    handleToggleExport = () => {
+        this.setState(state => ({exportE: !state.exportE}))
+    };
 
     handleClose = event => {
         this.setState({ setting: false });
     };
+
     handleChange = (event, value) => {
         this.setState({ value });
     };
@@ -265,6 +362,7 @@ class NavDeals extends Component{
             deals,
             setting,
             user,
+            exportE,
             value
         } = this.state;
         const { classes} = this.props;
@@ -297,20 +395,70 @@ class NavDeals extends Component{
                 <div className='NavGroupCenter'>
                 </div>
                 <div className='NavGroupRight'>
-                    {pipeline && (<div>
+                    {deals && (<div>
+                        <Button
+                            className='ButtonUser'
+                            buttonRef={node => {
+                                this.anchorEl = node;
+                            }}
+                            aria-owns={user ? 'menu-list-grow' : null}
+                            aria-haspopup="true"
+                            onClick={this.handleToggleUser}
+                        >
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>filter_list</Icon>
+                            User
+                        </Button>
+                        <Popper className='PopperUser' open={user} anchorEl={this.anchorEl} transition disablePortal>
+                            {({ TransitionProps, placement }) => (
+                                <Grow
+                                    {...TransitionProps}
+                                    id="menu-list-grow"
+                                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                >
+                                    <Paper>
+                                        <ClickAwayListener onClickAway={this.handleClose}>
+                                            <div className={classes.root}>
+                                                <div className='SearchUser'>
+                                                    <TextField className='textField'
+                                                               placeholder='Search owner or filter'
+                                                               id="input-with-icon-textfield"
+                                                               InputProps={{
+                                                                   startAdornment: (
+                                                                       <InputAdornment position="start">
+                                                                           <Icon>search</Icon>
+                                                                       </InputAdornment>
+                                                                   ),
+                                                               }}
+                                                    />
+                                                </div>
+                                                <AppBar position="static">
+                                                    <Tabs value={value} onChange={this.handleChange}>
+                                                        <Tab value="one" label="FAVORITES" icon={<Icon>person</Icon>}/>
+                                                        <Tab value="two" label="OWNERS" icon={<Icon>person</Icon>} />
+                                                        <Tab value="three" label="FILTERS" icon={<Icon>person</Icon>}/>
+                                                    </Tabs>
+                                                </AppBar>
+                                                {value === 'one' && <Favorite value={value}/>}
+                                                {value === 'two' && <Favorite value={value}/>}
+                                                {value === 'three' && <Favorite value={value}/>}
+                                            </div>
+                                        </ClickAwayListener>
+                                    </Paper>
+                                </Grow>
+                            )}
+                        </Popper>
                         <Button
                             className='ButtonSetting'
                             buttonRef={node => {
                                 this.anchorEl = node;
                             }}
-                            aria-owns={setting ? 'menu-list-grow' : null}
+                            aria-owns={exportE ? 'menu-list-grow' : null}
                             aria-haspopup="true"
-                            onClick={this.handleToggle}
+                            onClick={this.handleToggleExport}
                         >
-                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>settings</Icon>
-                            Pipeline settings
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>more_horiz</Icon>
                         </Button>
-                        <Popper open={setting} anchorEl={this.anchorEl} transition disablePortal>
+                        <Popper open={exportE} anchorEl={this.anchorEl} transition disablePortal style={{zIndex: 2}}>
                             {({ TransitionProps, placement }) => (
                                 <Grow
                                     {...TransitionProps}
@@ -320,15 +468,25 @@ class NavDeals extends Component{
                                     <Paper>
                                         <ClickAwayListener onClickAway={this.handleClose}>
                                             <MenuList>
-                                                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                                <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                                                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                                                <MenuItem onClick={this.handleClose}>Export filter results...</MenuItem>
+                                                <MenuItem onClick={this.handleClose}>Data import...</MenuItem>
+                                                <MenuItem onClick={this.handleClose} disabled>Show on map</MenuItem>
                                             </MenuList>
                                         </ClickAwayListener>
                                     </Paper>
                                 </Grow>
                             )}
                         </Popper>
+                    </div>)}
+                    {pipeline && (<div>
+                        <Button
+                            className='ButtonSetting'
+                            onClick={this.handleToggle}
+                            component={Link} to='/stages/pipelines'
+                        >
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>settings</Icon>
+                            Pipeline settings
+                        </Button>
                         <Button
                             className='ButtonUser'
                             buttonRef={node => {
@@ -381,7 +539,6 @@ class NavDeals extends Component{
                             )}
                         </Popper>
                     </div>)}
-                    {deals && <p>deals</p>}
                 </div>
             </header>
         )
@@ -454,7 +611,7 @@ function Price() {
 
 
 function User() {
-    
+
 }
 function AddDeal() {
 

@@ -18,11 +18,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import InputLabel from '@material-ui/core/InputLabel';
-import Icon from '@material-ui/core/Icon';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -30,19 +25,32 @@ function createData(name, calories, fat, carbs, protein) {
     return { id: counter, name, calories, fat, carbs, protein };
 }
 
-function getSorting(order, orderBy) {
-    return order === 'desc' ? (a, b) => b[orderBy] - a[orderBy] : (a, b) => a[orderBy] - b[orderBy];
+function desc(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
 }
 
-const columnData = [
+function getSorting(order, orderBy) {
+    return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+}
+
+const rows = [
     { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
     { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
     { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
     { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
     { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
 ];
 
-class TableDealsHead extends React.Component {
+class EnhancedTableHead extends React.Component {
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
     };
@@ -60,25 +68,25 @@ class TableDealsHead extends React.Component {
                             onChange={onSelectAllClick}
                         />
                     </TableCell>
-                    {columnData.map(column => {
+                    {rows.map(row => {
                         return (
                             <TableCell
-                                key={column.id}
-                                numeric={column.numeric}
-                                padding={column.disablePadding ? 'none' : 'default'}
-                                sortDirection={orderBy === column.id ? order : false}
+                                key={row.id}
+                                numeric={row.numeric}
+                                padding={row.disablePadding ? 'none' : 'default'}
+                                sortDirection={orderBy === row.id ? order : false}
                             >
                                 <Tooltip
                                     title="Sort"
-                                    placement={column.numeric ? 'bottom-end' : 'bottom-start'}
+                                    placement={row.numeric ? 'bottom-end' : 'bottom-start'}
                                     enterDelay={300}
                                 >
                                     <TableSortLabel
-                                        active={orderBy === column.id}
+                                        active={orderBy === row.id}
                                         direction={order}
-                                        onClick={this.createSortHandler(column.id)}
+                                        onClick={this.createSortHandler(row.id)}
                                     >
-                                        {column.label}
+                                        {row.label}
                                     </TableSortLabel>
                                 </Tooltip>
                             </TableCell>
@@ -90,7 +98,7 @@ class TableDealsHead extends React.Component {
     }
 }
 
-TableDealsHead.propTypes = {
+EnhancedTableHead.propTypes = {
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     onSelectAllClick: PropTypes.func.isRequired,
@@ -124,7 +132,7 @@ const toolbarStyles = theme => ({
     },
 });
 
-let TableDealsToolbar = props => {
+let EnhancedTableToolbar = props => {
     const { numSelected, classes } = props;
 
     return (
@@ -133,43 +141,16 @@ let TableDealsToolbar = props => {
                 [classes.highlight]: numSelected > 0,
             })}
         >
-            <div className={classes.title}>
-                {numSelected > 0 ? (
-                    <Typography color="inherit" variant="subheading">
-                        {numSelected} selected
-                    </Typography>
-                ) : (
-                    <Typography variant="title" id="tableTitle">
-                        Nutrition
-                    </Typography>
-                )}
-            </div>
-            <div className={classes.spacer} />
-            <div className={classes.actions}>
-                {numSelected > 0 ? (
-                    <Tooltip title="Delete">
-                        <IconButton aria-label="Delete">
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                    <Tooltip title="Filter list">
-                        <IconButton aria-label="Filter list">
-                            <FilterListIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
-            </div>
         </Toolbar>
     );
 };
 
-TableDealsToolbar.propTypes = {
+EnhancedTableToolbar.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
 };
 
-TableDealsToolbar = withStyles(toolbarStyles)(TableDealsToolbar);
+EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
     root: {
@@ -185,33 +166,28 @@ const styles = theme => ({
 });
 
 class TableDeals extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            anchorEl : null,
-            order: 'asc',
-            orderBy: 'calories',
-            selected: [],
-            data: [
-                createData('Cupcake', 305, 3.7, 67, 4.3),
-                createData('Donut', 452, 25.0, 51, 4.9),
-                createData('Eclair', 262, 16.0, 24, 6.0),
-                createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-                createData('Gingerbread', 356, 16.0, 49, 3.9),
-                createData('Honeycomb', 408, 3.2, 87, 6.5),
-                createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-                createData('Jelly Bean', 375, 0.0, 94, 0.0),
-                createData('KitKat', 518, 26.0, 65, 7.0),
-                createData('Lollipop', 392, 0.2, 98, 0.0),
-                createData('Marshmallow', 318, 0, 81, 2.0),
-                createData('Nougat', 360, 19.0, 9, 37.0),
-                createData('Oreo', 437, 18.0, 63, 4.0),
-            ],
-            page: 0,
-            rowsPerPage: 5,
-        };
-    }
+    state = {
+        order: 'asc',
+        orderBy: 'calories',
+        selected: [],
+        data: [
+            createData('Cupcake', 305, 3.7, 67, 4.3),
+            createData('Donut', 452, 25.0, 51, 4.9),
+            createData('Eclair', 262, 16.0, 24, 6.0),
+            createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+            createData('Gingerbread', 356, 16.0, 49, 3.9),
+            createData('Honeycomb', 408, 3.2, 87, 6.5),
+            createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+            createData('Jelly Bean', 375, 0.0, 94, 0.0),
+            createData('KitKat', 518, 26.0, 65, 7.0),
+            createData('Lollipop', 392, 0.2, 98, 0.0),
+            createData('Marshmallow', 318, 0, 81, 2.0),
+            createData('Nougat', 360, 19.0, 9, 37.0),
+            createData('Oreo', 437, 18.0, 63, 4.0),
+        ],
+        page: 0,
+        rowsPerPage: 5,
+    };
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -252,11 +228,6 @@ class TableDeals extends React.Component {
 
         this.setState({ selected: newSelected });
     };
-    handleClickMenu = () => {
-      this.setState({anchorEl: null})
-    }
-
-    handleClick
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -270,15 +241,15 @@ class TableDeals extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { data, order, orderBy, selected, rowsPerPage, page, anchorEl } = this.state;
+        const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
         return (
             <Paper className={classes.root}>
-                <TableDealsToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={selected.length} />
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
-                        <TableDealsHead
+                        <EnhancedTableHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
@@ -306,43 +277,14 @@ class TableDeals extends React.Component {
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                <InputLabel>
-                                                    {n.name}
-                                                </InputLabel>
-                                                {
-                                                    <div>
-                                                    <Button
-                                                        aria-owns={anchorEl ? 'simple-menu' : null}
-                                                        aria-haspopup="true"
-                                                        onClick={this.handleClickMenu}
-                                                    >
-                                                        <Icon>edit</Icon>
-                                                    </Button>
-                                                    <Menu
-                                                        id="simple-menu"
-                                                        anchorEl={anchorEl}
-                                                        open={Boolean(anchorEl)}
-                                                        onClose={this.handleClose}
-                                                    >
-                                                            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                                            <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                                                            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-                                                        </Menu>
-                                                    </div>
-                                                }
+                                                {n.name}
                                             </TableCell>
-                                            <TableCell numeric>
-                                                <InputLabel>
-                                                    {n.name}
-                                                </InputLabel>
-                                                {
-                                                    <IconButton>
-                                                        <Icon>edit</Icon>
-                                                    </IconButton>
-                                                }
-                                            </TableCell>
+                                            <TableCell numeric>{n.calories}</TableCell>
                                             <TableCell numeric>{n.fat}</TableCell>
                                             <TableCell numeric>{n.carbs}</TableCell>
+                                            <TableCell numeric>{n.protein}</TableCell>
+                                            <TableCell numeric>{n.protein}</TableCell>
+                                            <TableCell numeric>{n.protein}</TableCell>
                                             <TableCell numeric>{n.protein}</TableCell>
                                         </TableRow>
                                     );

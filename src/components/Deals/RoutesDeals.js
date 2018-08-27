@@ -4,6 +4,7 @@ import NavDeals from './NavDeals/NavDeals';
 
 import Pipeline from './Pipeline/Pipeline';
 import Deals from './Deals/Deals';
+import StagesPipeline from "./Pipeline/StagesPipeline";
 
 const  RoutesDeals= (props) => {
     return(
@@ -16,7 +17,7 @@ const  RoutesDeals= (props) => {
                     <Switch>
                         <Route exct path="/pipeline" component={Pipeline}/>
                         <Route path="/deals" component={Deals}/>
-                        <Redirect to="/deals"/>
+                        <Route path="/stages/pipelines" component={StagesPipeline}/>
                     </Switch>
                 </main>
             </div>

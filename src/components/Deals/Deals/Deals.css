@@ -1,0 +1,46 @@
+.DealsBody{
+    position: relative;
+}
+.DealsColumn{
+    position: absolute;
+    z-index: 3;
+    right: 5px;
+}
+.MenuColumn{
+    position: absolute;
+
+}
+.PaperDeals{
+    position: absolute;
+    right: 100px;
+    width: 300px;
+    height: 400px;
+}
+.LeftRight{
+    border-top: 1px solid;
+    height: 40px;
+}
+.Left{
+    position: absolute;
+    left: 0;
+}
+.Right{
+    position: absolute;
+    right: 0;
+}
+.DealsPaperBody{
+    overflow-y: scroll;
+    height: 250px;
+}
+.DealsPaperBodyButton{
+    text-align: center;
+}
+.DealsPaperBodyButton button{
+    text-align: center;
+    width: auto;
+    padding: 10px;
+    border: 1px solid #CACBCC;
+    background-color: #F7F7F7;
+    font-size: 15px;
+    cursor: pointer;
+}
