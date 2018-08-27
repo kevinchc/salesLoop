@@ -34,6 +34,7 @@ import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 
 import {Row, Col} from 'reactstrap';
+import Radio from "@material-ui/core/es/Radio/Radio";
 
 const currencies = [
     {
@@ -76,7 +77,8 @@ const styles = theme => ({
 
 class FormDialog extends React.Component{
     state = {
-      currency: 'EUR'
+      currency: 'EUR',
+        selectedValue: 'a'
     };
     handleClose = () => {
         this.props.onClose(this.props.selectedValue)
@@ -91,6 +93,9 @@ class FormDialog extends React.Component{
             [name]: event.target.value,
         });
     };
+    handleChangeCheked = event => {
+        this.setState({selectedValue: event.target.value})
+    }
     render(){
         const { onClose, selectedValue, ...other} = this.props
         return(
@@ -156,6 +161,39 @@ class FormDialog extends React.Component{
                                 </option>
                             ))}
                         </TextField>
+                    </ListItem>
+                    <ListItem>
+                        <div>
+                            <Radio
+                                checked={this.state.selectedValue === 'a'}
+                                onChange={this.handleChangeCheked}
+                                value="a"
+                                name="radio-button-demo"
+                                aria-label="A"
+                            />
+                            <Radio
+                                checked={this.state.selectedValue === 'b'}
+                                onChange={this.handleChangeCheked}
+                                value="b"
+                                name="radio-button-demo"
+                                aria-label="B"
+                            />
+                            <Radio
+                                checked={this.state.selectedValue === 'c'}
+                                onChange={this.handleChangeCheked}
+                                value="c"
+                                name="radio-button-demo"
+                                aria-label="C"
+                            />
+                            <Radio
+                                checked={this.state.selectedValue === 'd'}
+                                onChange={this.handleChangeCheked}
+                                value="d"
+                                color="default"
+                                name="radio-button-demo"
+                                aria-label="D"
+                            />
+                        </div>
                     </ListItem>
                 </DialogContent>
             </Dialog>
@@ -269,7 +307,7 @@ class NavDeals extends Component{
                             aria-haspopup="true"
                             onClick={this.handleToggle}
                         >
-                            <Icon className='IconSetting'>settings</Icon>
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>settings</Icon>
                             Pipeline settings
                         </Button>
                         <Popper open={setting} anchorEl={this.anchorEl} transition disablePortal>
@@ -300,7 +338,7 @@ class NavDeals extends Component{
                             aria-haspopup="true"
                             onClick={this.handleToggleUser}
                         >
-                            <Icon className='IconSetting'>filter_list</Icon>
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>filter_list</Icon>
                             User
                         </Button>
                         <Popper className='PopperUser' open={user} anchorEl={this.anchorEl} transition disablePortal>

@@ -26,3 +26,83 @@
     flex: 1;
     background-color: red;
 }
+table{
+    width: 100%;
+}
+.TableHead th{
+    font-size: 15px;
+}
+
+.App {
+    display: flex;
+    flex-direction: row;
+}
+
+.todos {
+    background: grey;
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+}
+
+.done {
+    background: grey;
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+}
+
+/****/
+.TablePipeline{
+    position: absolute;
+    top: 135px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.HeadPipeline{
+    height: 60px;
+    display: table-cell;
+    align-items: center;
+    border: 1px solid #B7B9BA;
+    padding-right: 14px;
+}
+.HeadTable{
+    flex-direction: row;
+    display: flex;
+    text-align: center;
+}
+.leadin, .contactmade, .demoscheduled, .proposalmade, .negotiationsstarted{
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #B7B9BA;
+}
+table{
+    height: 100%;
+    border-spacing: 0;
+    background-color: #F7F7F7;
+}
+.BodyTable{
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow-y: scroll;
+}
+.first, .second, .third, .fourth, .five{
+    flex: 1;
+    display: table-cell;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    border-right: 1px solid #B7B9BA;
+}
+.BodyTable ul{
+    padding-top: 0px;
+}
+.BodyTable li{
+    cursor: pointer;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #B7B9BA;
+}
+

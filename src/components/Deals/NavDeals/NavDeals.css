@@ -43,7 +43,7 @@
     border: 1px solid #CACBCC;
     margin-left: 20px;
     height: 30px;
-    font-size: 15px;
+    font-size: 17px;
     color: #2A2D42;
     cursor: pointer;
 }
@@ -56,7 +56,7 @@
     margin-left: 20px;
     width: 100px;
     height: 30px;
-    font-size: 15px;
+    font-size: 17px;
     color: #2A2D42;
     cursor: pointer;
 }
@@ -112,6 +112,11 @@
 .Favorite li:hover{
     background-color: #3B6BE3;
 }
+.DialogAddDeals{
+    position: relative;
+    background-color: red;
+    top: 0px;
+}
 
 .titleAddDeal{
     display: flex;
@@ -131,4 +136,7 @@
 .formAddDeal li{
     padding-left: 0;
     padding-right: 0;
+}
+.IconSetting{
+
 }
