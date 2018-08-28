@@ -504,7 +504,7 @@ class NavDeals extends Component{
                                 <Grow
                                     {...TransitionProps}
                                     id="menu-list-grow"
-                                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    style={{zIndex:9, transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                 >
                                     <Paper>
                                         <ClickAwayListener onClickAway={this.handleClose}>

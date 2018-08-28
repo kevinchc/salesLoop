@@ -44,7 +44,7 @@ class Deals extends Component{
         return(
             <div className='DealsBody'>
                 <div className='DealsColumn'>
-                    <Button
+                    <Button style={{zIndex:1}}
                         buttonRef={node => {
                             this.anchorEl = node;
                         }}
