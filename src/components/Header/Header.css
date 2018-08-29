@@ -17,7 +17,7 @@
 .HeaderNav{
     flex: 6;
     text-align: center;
-}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
 .HeaderNav li{
     display: inline;
 }
@@ -40,4 +40,28 @@
     cursor: pointer;
 }
 .HeaderNavRight li:active{
+}
+.MenuUser {
+    position: absolute;
+    z-index: 9;
+    width: 300px;
+}
+.MenuNotification{
+    position: absolute;
+    top: -13px;
+    left: -83px;
+    z-index: 9;
+    width: 300px;
+    height: 20px;
+}
+.MenuSupport{
+    position: absolute;
+    width: 400px;
+    z-index: 9;
+}
+.MenuUser li{
+    display: block;
+}
+.MenuUser li:hover{
+    background-color: #123da3;
 }

@@ -11,7 +11,6 @@
 
 }
 .PaperDeals{
-    position: absolute;
     right: 100px;
     width: 300px;
     height: 400px;
@@ -30,7 +29,7 @@
 }
 .DealsPaperBody{
     overflow-y: scroll;
-    height: 250px;
+    height: 300px;
 }
 .DealsPaperBodyButton{
     text-align: center;
@@ -43,4 +42,13 @@
     background-color: #F7F7F7;
     font-size: 15px;
     cursor: pointer;
+}
+.ContentDeals{
+    position: absolute;
+    top: -43px;
+    left: -60px;
+}
+.SearchUser{
+    padding-top: 5px;
+    padding-bottom: 5px;
 }

@@ -344,8 +344,14 @@ class NavDeals extends Component{
         this.setState(state => ({exportE: !state.exportE}))
     };
 
-    handleClose = event => {
+    handleCloseSetting = event => {
         this.setState({ setting: false });
+    };
+    handleCloseUser = event => {
+        this.setState({ user: false });
+    };
+    handleCloseExport = event => {
+        this.setState({ exportE: false });
     };
 
     handleChange = (event, value) => {
@@ -416,7 +422,7 @@ class NavDeals extends Component{
                                     style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                 >
                                     <Paper>
-                                        <ClickAwayListener onClickAway={this.handleClose}>
+                                        <ClickAwayListener onClickAway={this.handleCloseUser}>
                                             <div className={classes.root}>
                                                 <div className='SearchUser'>
                                                     <TextField className='textField'
@@ -458,7 +464,7 @@ class NavDeals extends Component{
                         >
                             <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>more_horiz</Icon>
                         </Button>
-                        <Popper open={exportE} anchorEl={this.anchorEl} transition disablePortal style={{zIndex: 2}}>
+                        <Popper open={exportE} anchorEl={this.anchorEl} transition disablePortal style={{zIndex: 4}}>
                             {({ TransitionProps, placement }) => (
                                 <Grow
                                     {...TransitionProps}
@@ -466,7 +472,7 @@ class NavDeals extends Component{
                                     style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                 >
                                     <Paper>
-                                        <ClickAwayListener onClickAway={this.handleClose}>
+                                        <ClickAwayListener onClickAway={this.handleCloseExport}>
                                             <MenuList>
                                                 <MenuItem onClick={this.handleClose}>Export filter results...</MenuItem>
                                                 <MenuItem onClick={this.handleClose}>Data import...</MenuItem>
@@ -507,7 +513,7 @@ class NavDeals extends Component{
                                     style={{zIndex:9, transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                 >
                                     <Paper>
-                                        <ClickAwayListener onClickAway={this.handleClose}>
+                                        <ClickAwayListener onClickAway={this.handleCloseUser}>
                                             <div className={classes.root}>
                                                 <div className='SearchUser'>
                                                     <TextField className='textField'

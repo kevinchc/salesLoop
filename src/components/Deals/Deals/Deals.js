@@ -54,6 +54,8 @@ class Deals extends Component{
                     >
                         <Icon>settings</Icon>
                     </Button>
+                </div>
+                <div className='ContentDeals'>
                     <Popper
                         className='PaperDeals'
                         open={open} anchorEl={this.anchorEl} transition disablePortal>
@@ -80,7 +82,7 @@ class Deals extends Component{
                                                 />
                                             </div>
                                             <div className='DealsPaperBody'>
-                                                <div>Visible</div>
+                                                <div style={{paddingLeft: '10px'}}>Visible</div>
                                                 <ListItem>
                                                     <Checkbox
                                                         checked={this.state.checkedA}
@@ -91,7 +93,7 @@ class Deals extends Component{
                                                         asd
                                                     </ListItemText>
                                                 </ListItem>
-                                                <div>Not Visible</div>
+                                                <div style={{paddingLeft: '10px'}}>Not Visible</div>
                                                 <div className='DealsPaperBodyButton'>
                                                     <button value='deal' onClick={this.DealsPaper}>Deal</button>
                                                     <button value='person' onClick={this.DealsPaper}>Person</button>

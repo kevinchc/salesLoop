@@ -29,25 +29,49 @@ import Divider from '@material-ui/core/Divider';
 class Header extends Component{
     state = {
         auth : true,
-        anchorEl: null,
-        open: false
+        open: false,
+        notification: false,
+        support: false,
+        add: false
+    };
+    handleUser = () => {
+        this.setState(state => ({open: !state.open, notification:false, support:false}));
     };
 
     handleClose = event => {
-        if(this.anchorEl.contains(event.target)){
-            return
+        if(this.anchorEl1.contains(event.target)){
+            return;
         }
         this.setState({ open: false});
     };
-    handleUser = () => {
-      this.setState(state => ({open: !state.open}))
+    handleNotification = () => {
+        this.setState(state => ({notification: !state.notification, open: false,support:false}));
+    };
+
+    handleCloseNotification = event => {
+        if(this.anchorEl2.contains(event.target)){
+            return;
+        }
+        this.setState({ notification: false});
+    };
+    handleSupport = () => {
+        this.setState(state => ({support: !state.support, notification: false, open: false}));
+    };
+
+    handleCloseSupport = event => {
+        if(this.anchorEl3.contains(event.target)){
+            return;
+        }
+        this.setState({ support: false});
     };
 
     render(){
 
         const {
             auth,
-            open
+            open,
+            notification,
+            support
         } = this.state;
 
         return(
@@ -81,12 +105,12 @@ class Header extends Component{
                                     </Button>
                                 </li>
                                 <li>
-                                    <Button>
+                                    <Button component={Link} to='/mail/inbox'>
                                         Mail
                                     </Button>
                                 </li>
                                 <li>
-                                    <Button>
+                                    <Button component={Link} to='/activities/list'>
                                         Activities
                                     </Button>
                                 </li>
@@ -117,42 +141,101 @@ class Header extends Component{
                                     </Button>
                                 </li>
                                 <li>
-                                    <Button>
+                                    <Button
+                                        buttonRef={node => {
+                                            this.anchorEl1 = node;
+                                        }}
+                                        aria-owns={support ? 'menu-list-grow1': null}
+                                        aria-haspopup="true"
+                                        variant="contained"
+                                        onClick={this.handleSupport}
+                                    >
                                         <Icon>
                                             record_voice_over
                                         </Icon>
                                     </Button>
-                                </li>
-                                <li>
-                                    <Button>
-                                        <Icon>
-                                            notifications
-                                        </Icon>
-                                    </Button>
+                                    <Popper className='MenuSupport' open={support} anchorEl={this.anchorEl1} transition disablePortal>
+                                        {({TransitionProps, placement}) => (
+                                            <Grow
+                                                {...TransitionProps}
+                                                id="menu-list-grow1"
+                                                style={{transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'}}
+                                            >
+                                                <Paper>
+                                                    <ClickAwayListener onClickAway={this.handleCloseSupport}>
+                                                        <MenuList>
+                                                            <MenuItem onClick={this.handleCloseSupport}>No notification</MenuItem>
+                                                        </MenuList>
+                                                    </ClickAwayListener>
+                                                </Paper>
+                                            </Grow>
+                                        )}
+                                    </Popper>
                                 </li>
                                 <li>
                                     <Button
                                         buttonRef={node => {
-                                            this.anchorEl = node;
+                                            this.anchorEl2 = node;
                                         }}
-                                        aria-owns={open ? 'menu-list-grow': null}
+                                        aria-owns={notification ? 'menu-list-grow2': null}
+                                        aria-haspopup="true"
+                                        variant="contained"
+                                        onClick={this.handleNotification}
+                                    >
+                                        <Icon>
+                                            notifications
+                                        </Icon>
+                                    </Button>
+                                    <Popper className='MenuNotification' open={notification} anchorEl={this.anchorEl2} transition disablePortal>
+                                        {({TransitionProps, placement}) => (
+                                            <Grow
+                                                {...TransitionProps}
+                                                id="menu-list-grow2"
+                                                style={{transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'}}
+                                            >
+                                                <Paper>
+                                                    <ClickAwayListener onClickAway={this.handleCloseNotification}>
+                                                        <MenuList>
+                                                            <MenuItem onClick={this.handleCloseNotification}>No notification</MenuItem>
+                                                        </MenuList>
+                                                    </ClickAwayListener>
+                                                </Paper>
+                                            </Grow>
+                                        )}
+                                    </Popper>
+                                </li>
+                                <li>
+                                    <Button
+                                        buttonRef={node => {
+                                            this.anchorEl3 = node;
+                                        }}
+                                        aria-owns={open ? 'menu-list-grow3': null}
                                         aria-haspopup="true"
                                         variant="contained"
                                         onClick={this.handleUser}>
                                         <Icon>person</Icon>
                                     </Button>
-                                    <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+                                    <Popper className='MenuUser' open={open} anchorEl={this.anchorEl3} transition disablePortal>
                                         {({TransitionProps, placement}) => (
                                             <Grow
                                                 {...TransitionProps}
-                                                id="menu-list-grow"
+                                                id="menu-list-grow3"
                                                 style={{transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'}}
                                             >
                                                 <Paper>
                                                     <ClickAwayListener onClickAway={this.handleClose}>
                                                         <MenuList>
                                                             <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                                            <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                                            <Divider/>
+                                                            <MenuItem onClick={this.handleClose}>Apps & Integrations</MenuItem>
+                                                            <MenuItem onClick={this.handleClose}>Settings</MenuItem>
+                                                            <Divider/>
+                                                            <MenuItem onClick={this.handleClose}>Automation</MenuItem>
+                                                            <Divider/>
+                                                            <MenuItem onClick={this.handleClose}>Upgrade Plan</MenuItem>
+                                                            <MenuItem onClick={this.handleClose}>Add more Users</MenuItem>
+                                                            <MenuItem onClick={this.handleClose}>Invite friends & earn money</MenuItem>
+                                                            <Divider/>
                                                             <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                                                         </MenuList>
                                                     </ClickAwayListener>

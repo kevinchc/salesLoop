@@ -65,7 +65,7 @@
     position: absolute;
     right: 23px;
     top: 131px;
-    z-index: 2;
+    z-index: 4;
     width: 390px;
 }
 .SearchUser{
