@@ -148,3 +148,16 @@
 }
 .ListRadio span{
 }
+
+.NavGroupCenter{
+    text-align: center;
+}
+.setting2{
+    position: absolute;
+    left: 500px;
+    background-color: red;
+}
+.settingright{
+    position: absolute;
+    display: flex;
+}

@@ -303,6 +303,7 @@ class NavDeals extends Component{
     state = {
         pipeline: true,
         deals: false,
+        timeline: false,
         setting: false,
         user: false,
         exportE: false,
@@ -324,16 +325,27 @@ class NavDeals extends Component{
     handleChangePipe = () => {
         this.setState({
             pipeline: true,
-            deals: false
+            deals: false,
+            timeline: false
         })
     };
 
     handleChangeDeal = () => {
         this.setState({
             pipeline: false,
-            deals: true
+            deals: true,
+            timeline: false
         })
     };
+
+    handleChangeTime = () => {
+        this.setState({
+            pipeline: false,
+            deals: false,
+            timeline: true
+        })
+    };
+
     handleToggle = () => {
         this.setState(state => ({setting : !state.setting}))
     };
@@ -366,6 +378,7 @@ class NavDeals extends Component{
         const {
             pipeline,
             deals,
+            timeline,
             setting,
             user,
             exportE,
@@ -387,7 +400,7 @@ class NavDeals extends Component{
                                 format_align_justify
                             </Icon>
                         </IconButton>
-                        <IconButton component={Link} to="/timeline">
+                        <IconButton onClick={this.handleChangeTime} component={Link} to="/timeline">
                             <Icon>
                                 clear
                             </Icon>
@@ -396,9 +409,31 @@ class NavDeals extends Component{
                             Add deal
                         </Button>
                         <FormDialog open={this.state.open} onClose={this.handleCloseDialog}/>
+                        { timeline &&
+                        <IconButton>
+                            <Icon>
+                                settings
+                            </Icon>
+                        </IconButton>
+                        }{ timeline &&
+                        <IconButton>
+                            <Icon>
+                                clear
+                            </Icon>
+                        </IconButton>
+                        }
                     </ButtonGroup>
                 </div>
                 <div className='NavGroupCenter'>
+                    {
+                        timeline && (<div>
+                            <Button><Icon>keyboard_arrow_left</Icon></Button>
+                            <Button><Icon>keyboard_arrow_left</Icon></Button>
+                            <Button>Today</Button>
+                            <Button><Icon>keyboard_arrow_right</Icon></Button>
+                            <Button><Icon>keyboard_arrow_right</Icon></Button>
+                        </div>)
+                    }
                 </div>
                 <div className='NavGroupRight'>
                     {deals && (<div>
@@ -526,6 +561,90 @@ class NavDeals extends Component{
                                                                     </InputAdornment>
                                                             ),
                                                         }}
+                                                    />
+                                                </div>
+                                                <AppBar position="static">
+                                                    <Tabs value={value} onChange={this.handleChange}>
+                                                        <Tab value="one" label="FAVORITES" icon={<Icon>person</Icon>}/>
+                                                        <Tab value="two" label="OWNERS" icon={<Icon>person</Icon>} />
+                                                        <Tab value="three" label="FILTERS" icon={<Icon>person</Icon>}/>
+                                                    </Tabs>
+                                                </AppBar>
+                                                {value === 'one' && <Favorite value={value}/>}
+                                                {value === 'two' && <Favorite value={value}/>}
+                                                {value === 'three' && <Favorite value={value}/>}
+                                            </div>
+                                        </ClickAwayListener>
+                                    </Paper>
+                                </Grow>
+                            )}
+                        </Popper>
+                    </div>)}
+                    {timeline && (<div>
+                        <Button
+                            className='ButtonSetting'
+                            buttonRef={node => {
+                                this.anchorEl = node;
+                            }}
+                            aria-owns={exportE ? 'menu-list-grow' : null}
+                            aria-haspopup="true"
+                            onClick={this.handleToggleExport}
+                        >
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>more_horiz</Icon>
+                            Pipeline
+                        </Button>
+                        <Popper open={exportE} anchorEl={this.anchorEl} transition disablePortal style={{zIndex: 4}}>
+                            {({ TransitionProps, placement }) => (
+                                <Grow
+                                    {...TransitionProps}
+                                    id="menu-list-grow"
+                                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                >
+                                    <Paper>
+                                        <ClickAwayListener onClickAway={this.handleCloseExport}>
+                                            <MenuList>
+                                                <MenuItem onClick={this.handleClose}>Export filter results...</MenuItem>
+                                                <MenuItem onClick={this.handleClose}>Data import...</MenuItem>
+                                                <MenuItem onClick={this.handleClose} disabled>Show on map</MenuItem>
+                                            </MenuList>
+                                        </ClickAwayListener>
+                                    </Paper>
+                                </Grow>
+                            )}
+                        </Popper>
+                        <Button
+                            className='ButtonUser'
+                            buttonRef={node => {
+                                this.anchorEl = node;
+                            }}
+                            aria-owns={user ? 'menu-list-grow' : null}
+                            aria-haspopup="true"
+                            onClick={this.handleToggleUser}
+                        >
+                            <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>filter_list</Icon>
+                            User
+                        </Button>
+                        <Popper className='PopperUser' open={user} anchorEl={this.anchorEl} transition disablePortal>
+                            {({ TransitionProps, placement }) => (
+                                <Grow
+                                    {...TransitionProps}
+                                    id="menu-list-grow"
+                                    style={{zIndex:9, transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                >
+                                    <Paper>
+                                        <ClickAwayListener onClickAway={this.handleCloseUser}>
+                                            <div className={classes.root}>
+                                                <div className='SearchUser'>
+                                                    <TextField className='textField'
+                                                               placeholder='Search owner or filter'
+                                                               id="input-with-icon-textfield"
+                                                               InputProps={{
+                                                                   startAdornment: (
+                                                                       <InputAdornment position="start">
+                                                                           <Icon>search</Icon>
+                                                                       </InputAdornment>
+                                                                   ),
+                                                               }}
                                                     />
                                                 </div>
                                                 <AppBar position="static">

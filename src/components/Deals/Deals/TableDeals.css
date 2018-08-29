@@ -7,6 +7,7 @@
     text-align: right;
 }
 .EditItemTable{
+    visibility: visible;
     z-index: 9;
 }
 .ItemContentButton{
@@ -15,4 +16,16 @@
 }
 input {
     width: 100%;
+}
+.ItemButton{
+    visibility: hidden;
+}
+.ItemTable:hover button{
+    visibility: visible;
+}
+.ItemTable:active button{
+    visibility: visible;
+}
+.TableBodyDeals{
+    overflow-y: scroll;
 }

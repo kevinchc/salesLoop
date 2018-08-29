@@ -1,0 +1,15 @@
+.RootMail{
+    position: absolute;
+    top: 73px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #3B6BE3;
+}
+.Left{
+    position: absolute;
+    background-color: red;
+    width: 70px;
+    top: 0;
+    bottom: 0;
+}
