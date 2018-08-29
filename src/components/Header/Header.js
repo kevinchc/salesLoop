@@ -32,10 +32,24 @@ class Header extends Component{
         open: false,
         notification: false,
         support: false,
-        add: false
+        add: false,
+        search: false,
+        value: '1'
     };
     handleUser = () => {
         this.setState(state => ({open: !state.open, notification:false, support:false}));
+    };
+
+    handleSearch = (event) => {
+        if(event.target.value !== ''){
+            this.setState({search: true});
+        }else {
+            this.setState({search: false});
+        }
+
+    };
+    handleCloseSearch = event => {
+        this.setState({search: false})
     };
 
     handleClose = event => {
@@ -65,13 +79,20 @@ class Header extends Component{
         this.setState({ support: false});
     };
 
+    IconButtonClick (value) {
+        console.log(value)
+        this.setState({value: value})
+    };
+
     render(){
 
         const {
             auth,
             open,
             notification,
-            support
+            support,
+            search,
+            value
         } = this.state;
 
         return(
@@ -85,17 +106,53 @@ class Header extends Component{
                         </div>
                         <div className='HeaderSearch'>
                             <TextField
+                                onChange={this.handleSearch}
+                                buttonRef={node => {
+                                    this.anchorEl = node;
+                                }}
+                                aria-owns={search ? 'menu-list-grow' : null}
+                                aria-haspopup="true"
                                 className='margin'
                                 id="input-with-icon-textfield"
                                 placeholder='Search'
                                 InputProps={{
                                     startAdornment: (
-                                        <IconButton position="start">
+                                        <IconButton position="start" >
                                             <Icon>search</Icon>
                                         </IconButton>
                                     ),
                                 }}
                             />
+                            <Popper className='SearchPanel' open={search} anchorEl={this.anchorEl} transition disablePortal>
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        id="menu-list-grow"
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={this.handleCloseSearch}>
+                                                <div className='IconsSearch'>
+                                                    <div>
+                                                    <Button onClick={() => this.IconButtonClick(1)}><Icon>person</Icon></Button>
+                                                    <Button onClick={() => this.IconButtonClick(2)}><Icon>person</Icon></Button>
+                                                    <Button onClick={() => this.IconButtonClick(3)}><Icon>person</Icon></Button>
+                                                    <Button onClick={() => this.IconButtonClick(4)}><Icon>person</Icon></Button>
+                                                    <Button onClick={() => this.IconButtonClick(5)}><Icon>person</Icon></Button>
+                                                    </div>
+                                                    <div>
+                                                        {value === 1 && (<p>{value}</p>)}
+                                                        {value === 2 && (<p>{value}</p>)}
+                                                        {value === 3 && (<p>{value}</p>)}
+                                                        {value === 4 && (<p>{value}</p>)}
+                                                        {value === 5 && (<p>{value}</p>)}
+                                                    </div>
+                                                </div>
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
                         </div>
                         <div className='HeaderNav'>
                             <ul>
@@ -148,7 +205,7 @@ class Header extends Component{
                                         aria-owns={support ? 'menu-list-grow1': null}
                                         aria-haspopup="true"
                                         variant="contained"
-                                        onClick={this.handleSupport}
+                                        onChange={this.handleSupport}
                                     >
                                         <Icon>
                                             record_voice_over

@@ -37,7 +37,7 @@ class Deals extends Component{
 
     DealsPaper = event => {
         this.setState({type: event.target.value})
-    }
+    };
 
     render(){
         const {open, type} = this.state;

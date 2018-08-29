@@ -9,6 +9,13 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import './TableDeals.css';
+import Popper from "@material-ui/core/Popper/Popper";
+import Grow from "@material-ui/core/Grow/Grow";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import MenuList from "@material-ui/core/MenuList";
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 
 
 let id = 0;
@@ -25,16 +32,37 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-function createDate() {
-    
-}
-
 class ItemTable extends React.Component{
     constructor(props){
         super(props)
     }
-    render(){
+    state = {
+        open: false,
+        username: ''
+    };
 
+    handleToggleEdit = () => {
+        this.setState(state => ({ open: !state.open }));
+    };
+
+    handleCloseEdit = event => {
+        if (this.anchorEl.contains(event.target)) {
+            return;
+        }
+        this.setState({ open: false });
+    };
+    updateInput = (event) => {
+        this.setState({username: event.target.value});
+    };
+    handleSendValues = () => {
+        console.log(this.state.username);
+        this.handleToggleEdit()
+    };
+
+    render(){
+        const {
+          open
+        } = this.state;
         return(
             <div className='ItemTable'>
                 <Typography>
@@ -42,10 +70,48 @@ class ItemTable extends React.Component{
                 </Typography>
                 <div className='ItemButton'>
                     <IconButton
-                        onClick={this.props.handleToggleEdit}
+                        buttonRef={node => {
+                            this.anchorEl = node;
+                        }}
+                        aria-owns={open ? 'menu-list-grow' : null}
+                        aria-haspopup="true"
+                        onClick={this.handleToggleEdit}
                     >
                         <Icon>edit</Icon>
                     </IconButton>
+                    <Popper className='EditItemTable' open={open} anchorEl={this.anchorEl} transition disablePortal>
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                id="menu-list-grow"
+                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                            >
+                                <Paper className='ItemContentButton'>
+                                    <ClickAwayListener onClickAway={this.handleCloseEdit}>
+                                        <MenuList>
+                                            <MenuItem>Edit {this.props.name}</MenuItem>
+                                            <MenuItem><Input
+                                                type='text'
+                                                defaultValue={this.props.name}
+                                                inputProps={{
+                                                    'aria-label': 'Description',
+                                                }}
+                                                onChange={this.updateInput}
+                                            />
+                                            </MenuItem>
+                                            <div>
+                                                <Button onClick={this.handleCloseEdit}>Cancel</Button>
+                                                <Button
+                                                    onClick={this.handleSendValues}
+                                                    style={{backgroundColor: '#2FCF70', color:'white'}}
+                                                >Save</Button>
+                                            </div>
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
                 </div>
             </div>
         )
@@ -81,17 +147,6 @@ class TableDeals extends React.Component {
         negotiations: [
             {name:"5", stage:5}
         ]
-    };
-    handleToggleEdit = () => {
-        console.log("hola");
-        this.setState(state => ({ open: !state.open }));
-    };
-
-    handleCloseEdit = event => {
-        if (this.anchorEl.contains(event.target)) {
-            return;
-        }
-        this.setState({ open: false });
     };
     render() {
         const { open } = this.state;

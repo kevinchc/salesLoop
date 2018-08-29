@@ -65,3 +65,23 @@
 .MenuUser li:hover{
     background-color: #123da3;
 }
+.SearchPanel{
+    position: absolute;
+    top: 65px;
+    z-index: 4;
+}
+.IconsSearch{
+    height: 100px;
+}
+.IconsSearch button:hover{
+    border-bottom: 2px solid #3B6BE3;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+.IconsSearch button:active{
+    border-bottom: 2px solid #3B6BE3;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
