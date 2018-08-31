@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
 import './Header.css';
-import SearchForm from './SearchForm';
 import { Link } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Popper from '@material-ui/core/Popper';
-import Popover from '@material-ui/core/Popover';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -34,17 +27,24 @@ class Header extends Component{
         support: false,
         add: false,
         search: false,
-        value: '1'
+        input:'',
+        value: 1
     };
     handleUser = () => {
         this.setState(state => ({open: !state.open, notification:false, support:false}));
     };
+    handleClose = event => {
+        if(this.anchorEl3.contains(event.target)){
+            return;
+        }
+        this.setState({ open: false});
+    };
 
     handleSearch = (event) => {
         if(event.target.value !== ''){
-            this.setState({search: true});
+            this.setState({search: true, input: event.target.value});
         }else {
-            this.setState({search: false});
+            this.setState({search: false, input: event.target.value});
         }
 
     };
@@ -52,14 +52,9 @@ class Header extends Component{
         this.setState({search: false})
     };
 
-    handleClose = event => {
-        if(this.anchorEl1.contains(event.target)){
-            return;
-        }
-        this.setState({ open: false});
-    };
     handleNotification = () => {
         this.setState(state => ({notification: !state.notification, open: false,support:false}));
+        console.log(this.state.notification)
     };
 
     handleCloseNotification = event => {
@@ -80,19 +75,18 @@ class Header extends Component{
     };
 
     IconButtonClick (value) {
-        console.log(value)
         this.setState({value: value})
     };
 
     render(){
 
         const {
-            auth,
             open,
             notification,
             support,
             search,
-            value
+            value,
+            input
         } = this.state;
 
         return(
@@ -138,11 +132,11 @@ class Header extends Component{
                                                     <Button onClick={() => this.IconButtonClick(5)}><Icon>person</Icon></Button>
                                                     </div>
                                                     <div>
-                                                        {value === 1 && (<p>{value}</p>)}
-                                                        {value === 2 && (<p>{value}</p>)}
-                                                        {value === 3 && (<p>{value}</p>)}
-                                                        {value === 4 && (<p>{value}</p>)}
-                                                        {value === 5 && (<p>{value}</p>)}
+                                                        {value === 1 && (<p>No results for '{input}'</p>)}
+                                                        {value === 2 && (<p>No results for '{input}'</p>)}
+                                                        {value === 3 && (<p>No results for '{input}'</p>)}
+                                                        {value === 4 && (<p>No results for '{input}'</p>)}
+                                                        {value === 5 && (<p>No results for '{input}'</p>)}
                                                     </div>
                                                 </div>
                                             </ClickAwayListener>
@@ -263,7 +257,7 @@ class Header extends Component{
                                         buttonRef={node => {
                                             this.anchorEl3 = node;
                                         }}
-                                        aria-owns={open ? 'menu-list-grow3': null}
+                                        aria-owns={open ? 'menu-list-grow': null}
                                         aria-haspopup="true"
                                         variant="contained"
                                         onClick={this.handleUser}>
@@ -273,7 +267,7 @@ class Header extends Component{
                                         {({TransitionProps, placement}) => (
                                             <Grow
                                                 {...TransitionProps}
-                                                id="menu-list-grow3"
+                                                id="menu-list-grow"
                                                 style={{transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'}}
                                             >
                                                 <Paper>

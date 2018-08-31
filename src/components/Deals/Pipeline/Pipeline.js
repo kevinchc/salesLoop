@@ -4,7 +4,7 @@ import './Pipeline.css';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-// fake data generator
+//Generador de mi data
 const getItems = (count, offset = 0) =>
     Array.from({ length: count }, (v, k) => k).map(k => ({
         id: `item-${k + offset}`,
@@ -21,7 +21,7 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 /**
- * Moves an item from one list to another list.
+ * Moves un item de una lista a otra lista.
  */
 const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
@@ -46,7 +46,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     margin: `0 0 ${grid}px 0`,
 
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'red' : 'grey',
 
     // styles we need to apply on draggables
     ...draggableStyle
@@ -90,7 +90,6 @@ class Pipeline extends Component{
         five: getItems(5,20)
 
     };
-
     /**
      * A semi-generic way to handle multiple lists. Matches
      * the IDs of the droppable container to the names of the
@@ -113,7 +112,6 @@ class Pipeline extends Component{
         if (!destination) {
             return;
         }
-        console.log(source.droppableId+":"+destination.droppableId);
 
         if (source.droppableId === destination.droppableId) {
             const items = reorder(
@@ -124,14 +122,26 @@ class Pipeline extends Component{
 
             let state = { items };
 
-            if (source.droppableId === 'droppable2') {
-                state = { selected: items };
+            switch (source.droppableId) {
+                case 'droppable2':
+                    state = { selected: items };
+                    break;
+                case 'droppable3':
+                    state = { thirty: items };
+                    break;
+                case 'droppable4':
+                    state = { forty: items };
+                    break;
+                case 'droppable5':
+                    state = { five: items };
+                    break;
+                default:
+                    break;
             }
             this.setState(state);
+
         }else if(
-            destination.droppableId === 'droppable2' || source.droppableId === 'droppable2' ||
-            destination.droppableId === 'droppable3'||
-            destination.droppableId === 'droppable4' || destination.droppableId === 'droppable5'){
+            source.droppableId === 'droppable'){
             const result = move(
                 this.getList(source.droppableId),
                 this.getList(destination.droppableId),
@@ -166,8 +176,15 @@ class Pipeline extends Component{
                 default:
                     break;
             }
-            switch (source.droppableId) {
-                case 'droppable2':
+        }else if(source.droppableId === 'droppable2'){
+            const result = move(
+                this.getList(source.droppableId),
+                this.getList(destination.droppableId),
+                source,
+                destination
+            );
+            switch (destination.droppableId) {
+                case 'droppable':
                     this.setState({
                         items: result.droppable,
                         selected: result.droppable2,
@@ -175,234 +192,302 @@ class Pipeline extends Component{
                     break;
                 case 'droppable3':
                     this.setState({
-                        items: result.droppable,
+                        selected: result.droppable2,
                         thirty: result.droppable3,
                     });
                     break;
                 case 'droppable4':
                     this.setState({
-                        items: result.droppable,
+                        selected: result.droppable2,
                         forty: result.droppable4,
                     });
                     break;
                 case 'droppable5':
                     this.setState({
-                        items: result.droppable,
+                        selected: result.droppable2,
                         five: result.droppable5,
                     });
                     break;
                 default:
                     break;
             }
-        }else if(destination.droppableId === 'droppable3' || source.droppableId === 'droppable3'){
-            console.log("hola");
+        }else if(source.droppableId === 'droppable3'){
             const result = move(
                 this.getList(source.droppableId),
                 this.getList(destination.droppableId),
                 source,
                 destination
             );
-
-            this.setState({
-                items: result.droppable,
-                selected: result.droppable2,
-            });
-            console.log("hola")
-        }else {
+            switch (destination.droppableId) {
+                case 'droppable':
+                    this.setState({
+                        thirty: result.droppable3,
+                        items: result.droppable,
+                    });
+                    break;
+                case 'droppable2':
+                    this.setState({
+                        thirty: result.droppable3,
+                        selected: result.droppable2,
+                    });
+                    break;
+                case 'droppable4':
+                    this.setState({
+                        thirty: result.droppable3,
+                        forty: result.droppable4,
+                    });
+                    break;
+                case 'droppable5':
+                    this.setState({
+                        thirty: result.droppable3,
+                        five: result.droppable5,
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }else if(source.droppableId === 'droppable4'){
             const result = move(
                 this.getList(source.droppableId),
                 this.getList(destination.droppableId),
                 source,
                 destination
             );
-
-            this.setState({
-                items: result.droppable,
-                thirty: result.droppable3
-            });
+            switch (destination.droppableId) {
+                case 'droppable':
+                    this.setState({
+                        forty: result.droppable4,
+                        items: result.droppable,
+                    });
+                    break;
+                case 'droppable2':
+                    this.setState({
+                        forty: result.droppable4,
+                        selected: result.droppable2,
+                    });
+                    break;
+                case 'droppable3':
+                    this.setState({
+                        forty: result.droppable4,
+                        thirty: result.droppable3,
+                    });
+                    break;
+                case 'droppable5':
+                    this.setState({
+                        forty: result.droppable4,
+                        five: result.droppable5,
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
-        console.log(this.state.items);
-        console.log(this.state.selected);
-        console.log(this.state.thirty)
+        else {
+            const result = move(
+                this.getList(source.droppableId),
+                this.getList(destination.droppableId),
+                source,
+                destination
+            );
+            switch (destination.droppableId) {
+                case 'droppable':
+                    this.setState({
+                        five: result.droppable5,
+                        items: result.droppable,
+                    });
+                    break;
+                case 'droppable2':
+                    this.setState({
+                        five: result.droppable5,
+                        selected: result.droppable2,
+                    });
+                    break;
+                case 'droppable3':
+                    this.setState({
+                        five: result.droppable5,
+                        thirty: result.droppable3,
+                    });
+                    break;
+                case 'droppable4':
+                    this.setState({
+                        five: result.droppable5,
+                        forty: result.droppable4,
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
     };
-
-
     render(){
-        let demoScheduled = this.state.demoScheduled;
-        let proposalMode = this.state.proposalMode;
-        let negotiations = this.state.negotiations;
         return(
             <div>
                 <div className='TablePipeline'>
-                    <table>
-                        <tbody>
-                            <tr className='HeadPipeline'>
-                                <div className='HeadTable'>
-                                    <div className='leadin'><h4>Lead In</h4></div>
-                                    <div className='contactmade'><h4>Contact Made</h4></div>
-                                    <div className='demoscheduled'><h4>Demos Scheduled</h4></div>
-                                    <div className='proposalmade'><h4>Proposal Made</h4></div>
-                                    <div className='negotiationsstarted'><h4>Negotiations Started</h4></div>
+                    <div className='HeadPipeline'>
+                        <ul>
+                            <li><h4>Lead In</h4></li>
+                            <li><h4>Contact Made</h4></li>
+                            <li><h4>Demos Scheduled</h4></li>
+                            <li><h4>Proposal Made</h4></li>
+                            <li><h4>Negotiations Started</h4></li>
+                        </ul>
+                    </div>
+                    <div className='BodyPipeline'>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <div className='BodyTable'>
+                                <div className='first'>
+                                    <Droppable droppableId="droppable">
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getListStyle(snapshot.isDraggingOver)}>
+                                                {this.state.items.map((item, index) => (
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={item.id}
+                                                        index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getItemStyle(
+                                                                    snapshot.isDragging,
+                                                                    provided.draggableProps.style
+                                                                )}>
+                                                                {item.content}
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {provided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
                                 </div>
-                            </tr>
-                            <tr>
-                                <DragDropContext onDragEnd={this.onDragEnd}>
-                                    <div className='BodyTable'>
-                                        <div className='first'>
-                                            <Droppable droppableId="droppable">
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                                        {this.state.items.map((item, index) => (
-                                                            <Draggable
-                                                                key={item.id}
-                                                                draggableId={item.id}
-                                                                index={index}>
-                                                                {(provided, snapshot) => (
-                                                                    <div
-                                                                        ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                        style={getItemStyle(
-                                                                            snapshot.isDragging,
-                                                                            provided.draggableProps.style
-                                                                        )}>
-                                                                        {item.content}
-                                                                    </div>
-                                                                )}
-                                                            </Draggable>
-                                                        ))}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )}
-                                            </Droppable>
-                                        </div>
-                                        <div className='second'>
-                                            <Droppable droppableId="droppable2">
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                                        {this.state.selected.map((item, index) => (
-                                                            <Draggable
-                                                                key={item.id}
-                                                                draggableId={item.id}
-                                                                index={index}>
-                                                                {(provided, snapshot) => (
-                                                                    <div
-                                                                        ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                        style={getItemStyle(
-                                                                            snapshot.isDragging,
-                                                                            provided.draggableProps.style
-                                                                        )}>
-                                                                        {item.content}
-                                                                    </div>
-                                                                )}
-                                                            </Draggable>
-                                                        ))}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )}
-                                            </Droppable>
-                                        </div>
-                                        <div className='third'>
-                                            <Droppable droppableId="droppable3">
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                                        {this.state.thirty.map((item, index) => (
-                                                            <Draggable
-                                                                key={item.id}
-                                                                draggableId={item.id}
-                                                                index={index}>
-                                                                {(provided, snapshot) => (
-                                                                    <div
-                                                                        ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                        style={getItemStyle(
-                                                                            snapshot.isDragging,
-                                                                            provided.draggableProps.style
-                                                                        )}>
-                                                                        {item.content}
-                                                                    </div>
-                                                                )}
-                                                            </Draggable>
-                                                        ))}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )}
-                                            </Droppable>
-                                        </div>
-                                        <div className='fourth'>
-                                            <Droppable droppableId="droppable4">
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                                        {this.state.forty.map((item, index) => (
-                                                            <Draggable
-                                                                key={item.id}
-                                                                draggableId={item.id}
-                                                                index={index}>
-                                                                {(provided, snapshot) => (
-                                                                    <div
-                                                                        ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                        style={getItemStyle(
-                                                                            snapshot.isDragging,
-                                                                            provided.draggableProps.style
-                                                                        )}>
-                                                                        {item.content}
-                                                                    </div>
-                                                                )}
-                                                            </Draggable>
-                                                        ))}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )}
-                                            </Droppable>
-                                        </div>
-                                        <div className='five'>
-                                            <Droppable droppableId="droppable5">
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                                        {this.state.five.map((item, index) => (
-                                                            <Draggable
-                                                                key={item.id}
-                                                                draggableId={item.id}
-                                                                index={index}>
-                                                                {(provided, snapshot) => (
-                                                                    <div
-                                                                        ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                        style={getItemStyle(
-                                                                            snapshot.isDragging,
-                                                                            provided.draggableProps.style
-                                                                        )}>
-                                                                        {item.content}
-                                                                    </div>
-                                                                )}
-                                                            </Draggable>
-                                                        ))}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )}
-                                            </Droppable>
-                                        </div>
-                                    </div>
-                                </DragDropContext>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <div className='second'>
+                                    <Droppable droppableId="droppable2">
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getListStyle(snapshot.isDraggingOver)}>
+                                                {this.state.selected.map((item, index) => (
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={item.id}
+                                                        index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getItemStyle(
+                                                                    snapshot.isDragging,
+                                                                    provided.draggableProps.style
+                                                                )}>
+                                                                {item.content}
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {provided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
+                                </div>
+                                <div className='third'>
+                                    <Droppable droppableId="droppable3">
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getListStyle(snapshot.isDraggingOver)}>
+                                                {this.state.thirty.map((item, index) => (
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={item.id}
+                                                        index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getItemStyle(
+                                                                    snapshot.isDragging,
+                                                                    provided.draggableProps.style
+                                                                )}>
+                                                                {item.content}
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {provided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
+                                </div>
+                                <div className='fourth'>
+                                    <Droppable droppableId="droppable4">
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getListStyle(snapshot.isDraggingOver)}>
+                                                {this.state.forty.map((item, index) => (
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={item.id}
+                                                        index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getItemStyle(
+                                                                    snapshot.isDragging,
+                                                                    provided.draggableProps.style
+                                                                )}>
+                                                                {item.content}
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {provided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
+                                </div>
+                                <div className='five'>
+                                    <Droppable droppableId="droppable5">
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getListStyle(snapshot.isDraggingOver)}>
+                                                {this.state.five.map((item, index) => (
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={item.id}
+                                                        index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getItemStyle(
+                                                                    snapshot.isDragging,
+                                                                    provided.draggableProps.style
+                                                                )}>
+                                                                {item.content}
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {provided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
+                                </div>
+                            </div>
+                        </DragDropContext>
+                    </div>
                 </div>
             </div>
         )

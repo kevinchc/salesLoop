@@ -17,7 +17,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import {Data} from '../../../api/Data';
-import MUIDataTable from 'mui-datatables';
 
 
 class ItemTable extends React.Component{
@@ -31,6 +30,7 @@ class ItemTable extends React.Component{
 
     handleToggleEdit = () => {
         this.setState(state => ({ open: !state.open }));
+        console.log(this.props.state.dealIn)
     };
 
     handleCloseEdit = event => {
@@ -108,6 +108,34 @@ class ItemTable extends React.Component{
 
 
 class TableDeals extends React.Component {
+    state = {
+        open: false,
+        dealIn: [
+            {name:"1", stage:1, status:0},
+            {name:"1", stage:1},
+            {name:"1", stage:1},
+            {name:"1", stage:1},
+            {name:"1", stage:1}
+        ],
+        contactMade: [
+            {name:"2", stage:2},
+            {name:"2", stage:2},
+            {name:"2", stage:2},
+            {name:"2", stage:2}
+        ],
+        demoScheduled: [
+            {name:"3", stage:3},
+            {name:"3", stage:3},
+            {name:"3", stage:3}
+        ],
+        proposalMode: [
+            {name:"4", stage:4},
+            {name:"4", stage:4}
+        ],
+        negotiations: [
+            {name:"5", stage:5}
+        ]
+    };
     render() {
         const columns = ["Name", "Title", "Location", "Age", "Salary"];
 
@@ -143,45 +171,33 @@ class TableDeals extends React.Component {
             ["Gabby Strickland", "Business Process Consultant", "Scottsdale", 26, 45000],
             ["Mason Ray", "Computer Scientist", "San Francisco", 39, 142000]
         ];
-
-        const options = {
-            filter: true,
-            selectableRows: true,
-            filterType: 'dropdown',
-            responsive: 'stacked',
-            rowsPerPage: 10,
-            onRowsSelect: (rowsSelected, allRows) => {
-                console.log(rowsSelected, allRows);
-            },
-            onRowsDelete: (rowsDeleted) => {
-                console.log(rowsDeleted, "were deleted!");
-            },
-            onChangePage: (numberRows) => {
-                console.log(numberRows);
-            },
-            onSearchChange: (searchText) => {
-                console.log(searchText);
-            },
-            onColumnSortChange: (column, direction) => {
-                console.log(column, direction);
-            },
-            onColumnViewChange: (column, action) => {
-                console.log(column, action);
-            },
-            onFilterChange: (column, filters) => {
-                console.log(column, filters);
-            },
-            onCellClick: (cellIndex, rowIndex) => {
-                console.log(cellIndex, rowIndex);
-            }
-        };
         return (
-            <MUIDataTable
-                title={"Employee List"}
-                data={data}
-                columns={columns}
-                options={options}
-            />
+            <Paper>
+                <Table>
+                    <TableHead>
+                        <TableRow style={{height:'40px'}}>
+                            <TableCell style={{borderRight:'1px solid'}}>Dessert</TableCell>
+                            <TableCell style={{borderRight:'1px solid'}}>Calories</TableCell>
+                            <TableCell style={{borderRight:'1px solid'}}>Fat (g)</TableCell>
+                            <TableCell style={{borderRight:'1px solid'}}>Carbs (g)</TableCell>
+                            <TableCell>Protein (g)</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {Data.map(row => {
+                            return (
+                                <TableRow>
+                                    <TableCell><ItemTable name={row.id}/></TableCell>
+                                    <TableCell><ItemTable name={row.organization}/></TableCell>
+                                    <TableCell><ItemTable name={row.value}/></TableCell>
+                                    <TableCell><ItemTable name={row.stage}/></TableCell>
+                                    <TableCell><ItemTable name={row.status}/></TableCell>
+                                </TableRow>
+                            );
+                        })}
+                        </TableBody>
+                </Table>
+            </Paper>
         )
     }
 }

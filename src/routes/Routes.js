@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Header from '../components/Header/Header';
-import Deals from '../components/Deals/Deals';
 import { RoutesDeals } from '../components/Deals/RoutesDeals';
 import Mail from '../components/Mail/Mail';
 import Activities from '../components/Activities/Activities';

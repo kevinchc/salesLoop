@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import React  from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavDeals from './NavDeals/NavDeals';
 
 import Pipeline from './Pipeline/Pipeline';

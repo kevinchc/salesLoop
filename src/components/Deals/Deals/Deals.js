@@ -15,11 +15,14 @@ import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List/List";
 
+const column = ['one','two','three','four','five','six'];
+
 class Deals extends Component{
     state = {
         open: false,
         checkedA: true,
-        type: 'deal'
+        type: 'deal',
+        column : ['name','lastname','company']
     };
     handleClick = () => {
         this.setState(state => ({open: !state.open}))
@@ -40,7 +43,7 @@ class Deals extends Component{
     };
 
     render(){
-        const {open, type} = this.state;
+        const {open, type, column} = this.state;
         return(
             <div className='DealsBody'>
                 <div className='DealsColumn'>
@@ -49,7 +52,7 @@ class Deals extends Component{
                             this.anchorEl = node;
                         }}
                         aria-owns = {open ? 'menu': null}
-                        aria-haspopus='true'
+                        aria-haspopup='true'
                         onClick={this.handleClick}
                     >
                         <Icon>settings</Icon>

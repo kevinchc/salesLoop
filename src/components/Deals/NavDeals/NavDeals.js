@@ -1,14 +1,13 @@
-import React, { Component,Fragment, PureComponent } from 'react';
+import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem,DropdownToggle } from 'reactstrap';
+import { ButtonGroup } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom';
 
 import Divider from '@material-ui/core/Divider';
-import { DatePicker } from 'material-ui-pickers';
 
 
 import './NavDeals.css';
@@ -29,10 +28,6 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import FormControl from "@material-ui/core/FormControl/FormControl";
-import InputLabel from "@material-ui/core/InputLabel/InputLabel";
-import Input from "@material-ui/core/Input/Input";
-import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 
 import {Row, Col} from 'reactstrap';
@@ -76,33 +71,6 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
     },
 });
-
-class BasicDatePicker extends PureComponent {
-    state = {
-        selectedDate: '2018-01-01T00:00:00.000Z',
-    };
-
-    handleDateChange = (date) => {
-        this.setState({ selectedDate: date });
-    };
-
-    render() {
-        const { selectedDate } = this.state;
-
-        return (
-            <Fragment>
-                <div className="picker">
-                    <DatePicker
-                        label="Basic example"
-                        value={selectedDate}
-                        onChange={this.handleDateChange}
-                        animateYearScrolling={false}
-                    />
-                </div>
-            </Fragment>
-        );
-    }
-}
 
 
 
@@ -350,6 +318,7 @@ class NavDeals extends Component{
     };
     handleToggleUser = () => {
         this.setState(state => ({user : !state.user}))
+        console.log(this.state.user);
     };
     handleToggleExport = () => {
         this.setState(state => ({exportE: !state.exportE}))
@@ -369,16 +338,12 @@ class NavDeals extends Component{
         this.setState({ value });
     };
 
-    handleChangeIndex = index => {
-        this.setState({ value: index });
-    };
 
     render(){
         const {
             pipeline,
             deals,
             timeline,
-            setting,
             user,
             exportE,
             value
@@ -665,7 +630,6 @@ class NavDeals extends Component{
 }
 
 function Favorite(props) {
-    const { classes } = props;
     return(
         <div className='Favorite'>
             { props.value === 'one' && (
@@ -722,22 +686,6 @@ function Favorite(props) {
             </MenuItem>
         </div>
     )
-}
-
-function Price() {
-}
-
-
-
-function User() {
-
-}
-function AddDeal() {
-
-}
-
-function f() {
-    
 }
 
 NavDeals.propTypes = {

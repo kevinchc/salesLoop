@@ -68,3 +68,22 @@
 .SearchUser{
     border: 1px solid #2A2D42;
 }
+.RightMain{
+    position: absolute;
+    top: 70px;
+    bottom: 0;
+    width: 100%;
+}
+.MailCard{
+    margin: 30px 30px 0 30px;
+    height: 94%;
+    overflow-y: auto;
+    text-align: center;
+}
+.MenuFilter{
+    position: absolute;
+    display: block;
+}
+.MenuMark{
+    position: absolute;
+}
