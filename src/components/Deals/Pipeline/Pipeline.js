@@ -138,6 +138,7 @@ class Pipeline extends Component{
                 default:
                     break;
             }
+            console.log(this.state.items)
             this.setState(state);
 
         }else if(
@@ -318,6 +319,11 @@ class Pipeline extends Component{
                     break;
             }
         }
+        console.log(this.state.items);
+        console.log(this.state.selected);
+        console.log(this.state.thirty);
+        console.log(this.state.forty);
+        console.log(this.state.five);
     };
     render(){
         return(

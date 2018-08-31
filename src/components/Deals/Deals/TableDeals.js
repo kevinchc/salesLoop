@@ -30,7 +30,6 @@ class ItemTable extends React.Component{
 
     handleToggleEdit = () => {
         this.setState(state => ({ open: !state.open }));
-        console.log(this.props.state.dealIn)
     };
 
     handleCloseEdit = event => {

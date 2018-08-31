@@ -14,6 +14,8 @@ import ListItem from "@material-ui/core/ListItem/ListItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List/List";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const column = ['one','two','three','four','five','six'];
 
@@ -22,6 +24,7 @@ class Deals extends Component{
         open: false,
         checkedA: true,
         type: 'deal',
+        column2 : [{'name' : {display: false}}],
         column : ['name','lastname','company']
     };
     handleClick = () => {
@@ -35,6 +38,7 @@ class Deals extends Component{
     };
 
     handleChange = name => event => {
+        console.log(name);
         this.setState({ [name]: event.target.checked });
     };
 
@@ -86,16 +90,20 @@ class Deals extends Component{
                                             </div>
                                             <div className='DealsPaperBody'>
                                                 <div style={{paddingLeft: '10px'}}>Visible</div>
-                                                <ListItem>
-                                                    <Checkbox
-                                                        checked={this.state.checkedA}
-                                                        onChange={this.handleChange('checkedA')}
-                                                        value="checkedA"
-                                                    />
-                                                    <ListItemText>
-                                                        asd
-                                                    </ListItemText>
-                                                </ListItem>
+                                                <div className='FormGroup'>
+                                                    <FormGroup>
+                                                        {
+                                                            column.map(item => (
+                                                                <FormControlLabel
+                                                                    control={
+                                                                        <Checkbox onClick={this.handleChange('gilad')}/>
+                                                                    }
+                                                                    label= {item}
+                                                                />
+                                                            ))
+                                                        }
+                                                    </FormGroup>
+                                                </div>
                                                 <div style={{paddingLeft: '10px'}}>Not Visible</div>
                                                 <div className='DealsPaperBodyButton'>
                                                     <button value='deal' onClick={this.DealsPaper}>Deal</button>
