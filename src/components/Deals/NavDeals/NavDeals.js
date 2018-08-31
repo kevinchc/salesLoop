@@ -259,7 +259,6 @@ class FormDialog extends React.Component{
                                     this.anchorEl = node;
                                 }}
                                 aria-owns={openCompany ? 'menu-list-grow' : null}
-                                aria-haspopup="true"
                                 onClick={this.handleOpenCompany}
                             >Entire company
                             </Button>
@@ -443,7 +442,6 @@ class NavDeals extends Component{
                                 this.anchorEl = node;
                             }}
                             aria-owns={user ? 'menu-list-grow' : null}
-                            aria-haspopup="true"
                             onClick={this.handleToggleUser}
                         >
                             <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>filter_list</Icon>
@@ -494,7 +492,6 @@ class NavDeals extends Component{
                                 this.anchorEl = node;
                             }}
                             aria-owns={exportE ? 'menu-list-grow' : null}
-                            aria-haspopup="true"
                             onClick={this.handleToggleExport}
                         >
                             <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>more_horiz</Icon>
@@ -534,7 +531,6 @@ class NavDeals extends Component{
                                 this.anchorEl = node;
                             }}
                             aria-owns={user ? 'menu-list-grow' : null}
-                            aria-haspopup="true"
                             onClick={this.handleToggleUser}
                         >
                             <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>filter_list</Icon>
@@ -587,7 +583,6 @@ class NavDeals extends Component{
                                 this.anchorEl = node;
                             }}
                             aria-owns={exportE ? 'menu-list-grow' : null}
-                            aria-haspopup="true"
                             onClick={this.handleToggleExport}
                         >
                             <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>more_horiz</Icon>
@@ -618,7 +613,6 @@ class NavDeals extends Component{
                                 this.anchorEl = node;
                             }}
                             aria-owns={user ? 'menu-list-grow' : null}
-                            aria-haspopup="true"
                             onClick={this.handleToggleUser}
                         >
                             <Icon className='IconSetting' style={{fontSize: 15, marginRight: 5}}>filter_list</Icon>

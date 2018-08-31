@@ -174,7 +174,9 @@ class Deals extends Component{
                         )}
                     </Popper>
                 </div>
-                <TableDeals/>
+                <div>
+                    <TableDeals/>
+                </div>
             </div>
         )
     }

@@ -107,9 +107,6 @@ class Header extends Component{
                         <div className='HeaderSearch'>
                             <TextField
                                 onChange={this.handleSearch}
-                                buttonRef={node => {
-                                    this.anchorEl = node;
-                                }}
                                 aria-owns={search ? 'menu-list-grow' : null}
                                 aria-haspopup="true"
                                 className='margin'
